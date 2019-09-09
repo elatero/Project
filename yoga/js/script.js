@@ -6,7 +6,7 @@ window.addEventListener('DOMContentLoaded', () => {
       info = document.querySelector('.info-header'),
       tabContent = document.querySelectorAll('.info-tabcontent');
 
-  function hideTabContent(a) {
+  const hideTabContent = (a) => {
     for (let i = a; i < tabContent.length; i++) {
       tabContent[i].classList.remove('show');
       tabContent[i].classList.add('hide');
@@ -15,7 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   hideTabContent(1);
 
-  function showTabContent(b) {
+  const showTabContent = (b) => {
     if (tabContent[b].classList.contains('hide')) {
       tabContent[b].classList.remove('hide');
       tabContent[b].classList.add('show');
@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   let deadline = '2019-09-30';
 
-  function getTimeRemaining(endtime) {
+  const getTimeRemaining = (endtime) => {
     let t = Date.parse(endtime) - Date.parse(new Date()),
         seconds = Math.floor((t / 1000) % 60),
         minutes = Math.floor((t / 1000 / 60) % 60),
@@ -53,17 +53,17 @@ window.addEventListener('DOMContentLoaded', () => {
         };
   }
 
-  function setClock(id, endtime) {
+  const setClock = (id, endtime) => {
     let timer = document.getElementById(id),
         hours = timer.querySelector('.hours'),
         minutes = timer.querySelector('.minutes'),
         seconds = timer.querySelector('.seconds'),
         timeInterval = setInterval(updateClock, 1000);
 
-    function updateClock() {
+    function updateClock () {
       let t = getTimeRemaining(endtime);
 
-      function addZero(num) {
+      const addZero = (num) => {
         if(num <= 9) {
           return '0' + num;
         } else {
@@ -92,24 +92,15 @@ window.addEventListener('DOMContentLoaded', () => {
       overlay = document.querySelector('.overlay'),
       close = document.querySelector('.popup-close');
 
-  more.addEventListener('click', function() {
+  more.addEventListener('click', () => {
     overlay.style.display = 'block';
-    this.classList.add('more-splash');
+    more.classList.add('more-splash');
     document.body.style.overflow = 'hidden';
   })
 
-  close.addEventListener('click', function() {
+  close.addEventListener('click', () => {
     overlay.style.display = 'none';
     more.classList.remove('more-splash');
     document.body.style.overflow = '';
   })
 });
-
-// Второе задание
-
-// let age = document.getElementById('age');
-// function showUser(surname, name) {
-// 	alert("Пользователь " + surname + " " + name + ", его возраст " + this.value);
-// }
-
-// showUser.apply(age, ["Горький","Максим"]);
