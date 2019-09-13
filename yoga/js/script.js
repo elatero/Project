@@ -115,39 +115,48 @@ window.addEventListener('DOMContentLoaded', () => {
   let form = document.querySelector('.main-form'),
       input = form.getElementsByTagName('input'),
       statusMessage = document.createElement('div');
-
       statusMessage.classList.add('status');
 
   form.addEventListener('submit', function(event) {
     event.preventDefault();
     form.appendChild(statusMessage);
 
-    let request = new XMLHttpRequest();
-    request.open('POST', 'server.php');
-    request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-
     let formData = new FormData(form);
 
-    let obj = {};
-    formData.forEach(function(value, key) {
-        obj[key] = value;
-    });
-    let json = JSON.stringify(obj);
+    function postData(data) {
 
-    request.send(json);
+      return new Promise((resolve, reject) => {
 
-    request.addEventListener('readystatechange', function() {
-        if (request.readyState < 4) {
-            statusMessage.innerHTML = message.loading;
-        } else if(request.readyState === 4 && request.status == 200) {
-            statusMessage.innerHTML = message.success;
-        } else {
-            statusMessage.innerHTML = message.failure;
-        }
-    });
+        let request = new XMLHttpRequest();
 
-    for (let i = 0; i < input.length; i++) {
-        input[i].value = '';
+        request.open('POST', 'server.php');
+        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+
+        request.addEventListener('onreadystatechange', function() {
+          if (request.readyState < 4) {
+            resolve();
+          } else if(request.readyState === 4 && request.status == 200) {
+            resolve();
+          } else {
+            reject();
+          }
+        });
+        request.send(data);
+      });
     }
+
+    function clearInput() {
+      for (let i = 0; i < input.length; i++) {
+        input[i].value = '';
+      }
+    }
+
+    postData(formData)
+    .then(() => statusMessage.textContent = message.loading)
+    .then(() => statusMessage.textContent = message.success)
+    .catch(() => statusMessage.textContent = message.failure)
+    .then(clearInput);
+
   });
+
 });
