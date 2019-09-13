@@ -222,6 +222,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }    
   }
 
-  setInterval(autoSlider, 3000);
+  setInterval(autoSlider, 5000);
 
 });
