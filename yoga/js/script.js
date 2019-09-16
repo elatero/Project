@@ -132,7 +132,7 @@ window.addEventListener('DOMContentLoaded', () => {
         request.open('POST', 'server.php');
         request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 
-        request.addEventListener('onreadystatechange', function() {
+        request.addEventListener('readystatechange', function() {
           if (request.readyState < 4) {
             resolve();
           } else if(request.readyState === 4 && request.status == 200) {
@@ -151,7 +151,15 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    postData(formData)
+    let obj = {};
+
+    formData.forEach((value, key) => {
+      obj[key] = value;
+    });
+
+    let json = JSON.stringify(obj);
+
+    postData(json)
     .then(() => statusMessage.textContent = message.loading)
     .then(() => statusMessage.textContent = message.success)
     .catch(() => statusMessage.textContent = message.failure)
